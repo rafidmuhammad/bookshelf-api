@@ -7,7 +7,7 @@ pipeline {
         DOCKER_REGISTRY_URL = "rafidmuhammad"
         DOCKER_REGISTRY_ID = "rafidmuhammad-docker"
         COMMIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-        POSTMAN_API_KEY = PMAK-657e746bf2bff300387a6026-719c7cb61c3079dca95b2814f384498499
+        POSTMAN_API_KEY = "PMAK-657e746bf2bff300387a6026-719c7cb61c3079dca95b2814f384498499"
     }
 
     stages {
