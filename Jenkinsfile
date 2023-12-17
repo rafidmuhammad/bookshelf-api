@@ -40,8 +40,6 @@ pipeline {
               echo 'pushing'
                 }
             }
-        }
-
         stage('Deploy') {
             steps {
                 // Add deployment steps here
@@ -49,3 +47,4 @@ pipeline {
             }
         }
     }
+}
