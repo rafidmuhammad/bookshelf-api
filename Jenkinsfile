@@ -49,15 +49,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            // Add post-build actions here
-            echo 'Build and deployment succeeded!'
-        }
-        failure {
-            // Add post-build actions for failure cases
-            echo 'Build or deployment failed!'
-        }
-    }
 }
