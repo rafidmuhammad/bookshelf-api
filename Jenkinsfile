@@ -1,12 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        // Define environment variables
-        DOCKER_IMAGE_NAME = "your-docker-image-name"
-        DOCKER_REGISTRY_URL = "your-docker-registry-url"
-        COMMIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-    }
+    // environment {
+    //     // Define environment variables
+    //     DOCKER_IMAGE_NAME = "your-docker-image-name"
+    //     DOCKER_REGISTRY_URL = "your-docker-registry-url"
+    //     COMMIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+    // }
 
     stages {
         stage('Checkout') {
@@ -49,4 +49,3 @@ pipeline {
             }
         }
     }
-}
