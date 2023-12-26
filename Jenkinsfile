@@ -39,7 +39,7 @@ pipeline {
                 // Push the Docker image to a container registry
               script {
                     echo 'Pushing...'
-                    docker.withRegistry("${DOCKER_REGISTRY_URL}", "${DOCKER_REGISTRY_ID}") {
+                    docker.withRegistry("${DOCKER_REGISTRY_URL}", 'rafidmuhammad-docker') {
                         docker.image("${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}").push()
                     }
                 }
