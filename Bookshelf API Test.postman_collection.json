@@ -1,0 +1,2083 @@
+{
+	"info": {
+		"_postman_id": "e67169b6-e0a8-4e5c-865c-88317134ae1f",
+		"name": "Bookshelf API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23923510"
+	},
+	"item": [
+		{
+			"name": "Add book",
+			"item": [
+				{
+					"name": "CASE 1 : Successfully add book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 1 : Status code should be 201', () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: Response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: Response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: Response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('Success');\r",
+									"    pm.expect(responseJson.message).to.equals('Buku berhasil ditambahkan');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: Response body data should contain bookId', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('bookId');\r",
+									"    pm.expect(data.bookId).to.not.equals('');\r",
+									"\r",
+									"    pm.environment.set('bookId', data.bookId);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/books",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "95"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 13:41:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"Success\",\n    \"message\": \"Buku berhasil ditambahkan\",\n    \"data\": {\n        \"bookId\": \"UTv4OuwFJD9Sobn8\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 2 : Add book without name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 3 : Status code should be 400', () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('Failed');\r",
+									"    pm.expect(responseJson.message).to.equals('Gagal menambahkan buku. Mohon isi nama buku');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] Add Book Without Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": {{newPageCount}},\r\n    \"readPage\": {{newReadPage}},\r\n    \"reading\": {{newReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/books",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "75"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 13:41:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Gagal menambahkan buku. Mohon isi nama buku\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 3 : Add book ReadPage Larger than PageCount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 3 : Status code should be 400', () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: Response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('Failed');\r",
+									"    pm.expect(responseJson.message).to.equals('Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 50,\r\n    \"readPage\": 100,\r\n    \"reading\": {{newReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] ReadPage larger than PageCount",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{newName}}\",\r\n    \"year\": {{newYear}},\r\n    \"author\": \"{{newAuthor}}\",\r\n    \"summary\": \"{{newSummary}}\",\r\n    \"publisher\": \"{{newPublisher}}\",\r\n    \"pageCount\": 80,\r\n    \"readPage\": 90,\r\n    \"reading\": {{newReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/books",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"books"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "103"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 13:43:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get book detail",
+			"item": [
+				{
+					"name": "CASE 1 : Get book detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 1: response code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body should an object', () =>  {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body object should contain correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('success');\r",
+									"    pm.expect(responseJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body data object should contain book object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('book');\r",
+									"    pm.expect(data.book).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: book object should contain correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { book } } = responseJson;\r",
+									"\r",
+									"    pm.expect(book).to.haveOwnProperty('id');\r",
+									"    pm.expect(book).to.haveOwnProperty('name');\r",
+									"    pm.expect(book).to.haveOwnProperty('year');\r",
+									"    pm.expect(book).to.haveOwnProperty('author');\r",
+									"    pm.expect(book).to.haveOwnProperty('summary');\r",
+									"    pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    pm.expect(book).to.haveOwnProperty('pageCount');\r",
+									"    pm.expect(book).to.haveOwnProperty('readPage');\r",
+									"    pm.expect(book).to.haveOwnProperty('finished');\r",
+									"    pm.expect(book).to.haveOwnProperty('reading');\r",
+									"    pm.expect(book).to.haveOwnProperty('insertedAt');\r",
+									"    pm.expect(book).to.haveOwnProperty('updatedAt');\r",
+									"\r",
+									"    pm.expect(book.id).to.equals(pm.environment.get('bookId'));\r",
+									"    pm.expect(book.name).to.equals(pm.environment.get('newName'));\r",
+									"    pm.expect(book.year).to.equals(Number(pm.environment.get('newYear')));\r",
+									"    pm.expect(book.author).to.equals(pm.environment.get('newAuthor'));\r",
+									"    pm.expect(book.summary).to.equals(pm.environment.get('newSummary'));\r",
+									"    pm.expect(book.publisher).to.equals(pm.environment.get('newPublisher'));\r",
+									"    pm.expect(book.pageCount).to.equals(Number(pm.environment.get('newPageCount')));\r",
+									"    pm.expect(book.readPage).to.equals(Number(pm.environment.get('newReadPage')));\r",
+									"    pm.expect(book.finished).to.equals(pm.environment.get('newPageCount') === pm.environment.get('newReadPage'));\r",
+									"    pm.expect(book.reading).to.equals(pm.environment.get('newReading') == 'true');\r",
+									"    pm.expect(book.insertedAt).to.not.equals('');\r",
+									"    pm.expect(book.updatedAt).to.not.equals('');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/books/{{bookId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "324"
+								},
+								{
+									"key": "accept-ranges",
+									"value": "bytes"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 13:57:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"book\": {\n            \"id\": \"GTEX3Hr-mqbmFL_K\",\n            \"name\": \"Buku D\",\n            \"year\": 2010,\n            \"author\": \"John Doe\",\n            \"summary\": \"Lorem ipsum dolor sit amet\",\n            \"publisher\": \"Dicoding Indonesia\",\n            \"pageCount\": 100,\n            \"readPage\": 100,\n            \"finished\": true,\n            \"reading\": false,\n            \"insertedAt\": \"2023-12-07T13:55:54.152Z\",\n            \"updatedAt\": \"2023-12-07T13:55:54.152Z\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 2 : Get book detail by invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 2: response code should be 404', () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body should an object', () =>  {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body object should contain correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('Failed');\r",
+									"    pm.expect(responseJson.message).to.be.a('String');\r",
+									"\t\tmessage: 'Buku tidak ditemukan',\r",
+									"    pm.expect(responseJson.message).to.equal(\"Buku tidak ditemukan\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/1234567",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"1234567"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[FAILED] invalid id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/books/xxxxx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"xxxxx"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "50"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 13:59:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Buku tidak ditemukan\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Update book",
+			"item": [
+				{
+					"name": "CASE 1 : Successfully updated a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 1: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('success');\r",
+									"    pm.expect(responseJson.message).to.equals('Buku berhasil diperbarui');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: when get detail books', () => {\r",
+									"    pm.sendRequest(`${pm.environment.get('baseUrl')}/books/${pm.environment.get('bookId')}`, (error, response) => {\r",
+									"       const responseJson = response.json();\r",
+									"       const { data: { book} } = responseJson;\r",
+									"\r",
+									"       pm.test('book object should contain updated values', () => {\r",
+									"            pm.expect(book).to.haveOwnProperty('id');\r",
+									"            pm.expect(book).to.haveOwnProperty('name');\r",
+									"            pm.expect(book).to.haveOwnProperty('year');\r",
+									"            pm.expect(book).to.haveOwnProperty('author');\r",
+									"            pm.expect(book).to.haveOwnProperty('summary');\r",
+									"            pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"            pm.expect(book).to.haveOwnProperty('pageCount');\r",
+									"            pm.expect(book).to.haveOwnProperty('readPage');\r",
+									"            pm.expect(book).to.haveOwnProperty('finished');\r",
+									"            pm.expect(book).to.haveOwnProperty('reading');\r",
+									"            pm.expect(book).to.haveOwnProperty('insertedAt');\r",
+									"            pm.expect(book).to.haveOwnProperty('updatedAt');\r",
+									"            \r",
+									"            pm.expect(book.id).to.equals(pm.environment.get('bookId'));\r",
+									"            pm.expect(book.name).to.equals(pm.environment.get('updateName'));\r",
+									"            pm.expect(book.year).to.equals(Number(pm.environment.get('updateYear')));\r",
+									"            pm.expect(book.author).to.equals(pm.environment.get('updateAuthor'));\r",
+									"            pm.expect(book.summary).to.equals(pm.environment.get('updateSummary'));\r",
+									"            pm.expect(book.publisher).to.equals(pm.environment.get('updatePublisher'));\r",
+									"            pm.expect(book.pageCount).to.equals(Number(pm.environment.get('updatePageCount')));\r",
+									"            pm.expect(book.readPage).to.equals(Number(pm.environment.get('updateReadPage')));\r",
+									"            pm.expect(book.finished).to.equals(pm.environment.get('updateReadPage') !== pm.environment.get('updatePageCount'));\r",
+									"            pm.expect(book.reading).to.equals(pm.environment.get('updateReading') == 'true');\r",
+									"            pm.expect(book.insertedAt).to.not.equals('');\r",
+									"            pm.expect(book.updatedAt).to.not.equals('');\r",
+									"       }); \r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/books/{{bookId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "57"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 Dec 2023 08:47:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Buku berhasil diperbarui\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 2 : Updated a book with name omitted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 2: status code should be 400', () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: esponse header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.have.property('status');\r",
+									"    pm.expect(responseJson).to.have.property('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.message).to.equal('Gagal memperbarui buku. Mohon isi nama buku');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test('CASE 2: response body should not have data', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.not.have.property('data');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] Update data with no name",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/books/{{bookId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "73"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 Dec 2023 08:47:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Gagal memperbarui buku. Mohon isi nama buku\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 3 : Update a book with ReadPage larger than PageCount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 3: status code should be 400', () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('fail');\r",
+									"    pm.expect(responseJson.message).to.equals('Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body should not have data', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.not.have.property('data');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": 50,\r\n    \"readPage\": 100,\r\n    \"reading\": {{updateReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] ReadPage larger than PageCount",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": 80,\r\n    \"readPage\": 90,\r\n    \"reading\": {{updateReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/books/{{bookId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "101"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 Dec 2023 08:47:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 4 : Update a book with invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 4: status code should be 404', () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('fail');\r",
+									"    pm.expect(responseJson.message).to.equals('Gagal memperbarui buku. Id tidak ditemukan');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/1234567",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"1234567"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] Update Book with Invalid Id",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"year\": {{updateYear}},\r\n    \"author\": \"{{updateAuthor}}\",\r\n    \"summary\": \"{{updateSummary}}\",\r\n    \"publisher\": \"{{updatePublisher}}\",\r\n    \"pageCount\": {{updatePageCount}},\r\n    \"readPage\": {{updateReadPage}},\r\n    \"reading\": {{updateReading}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/books/xxxxx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"xxxxx"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "72"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 08 Dec 2023 08:47:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Gagal memperbarui buku. Id tidak ditemukan\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete a book",
+			"item": [
+				{
+					"name": "CASE 1: Delete a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('success');\r",
+									"    pm.expect(responseJson.message).to.equals('Buku berhasil dihapus');\r",
+									"});\r",
+									"\r",
+									"pm.test('when get detail books', () => {\r",
+									"    pm.sendRequest(`${pm.environment.get('baseUrl')}/books/${pm.environment.get('bookId')}`, (error, response) => {\r",
+									"       pm.test('The book should be not found', () => {\r",
+									"          pm.expect(response.code).to.equals(404);\r",
+									"       }); \r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/books/{{bookId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "54"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 14:02:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Buku berhasil dihapus\"\n}"
+						}
+					]
+				},
+				{
+					"name": "CASE 2: Delete a non-existing book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('status code should be 404', () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.equals('fail');\r",
+									"    pm.expect(responseJson.message).to.equals('Buku gagal dihapus. Id tidak ditemukan');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/{{bookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{bookId}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[Failed] Id invalid",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/books/xxxxx",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books",
+										"xxxxx"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "vary",
+									"value": "origin"
+								},
+								{
+									"key": "access-control-expose-headers",
+									"value": "WWW-Authenticate,Server-Authorization"
+								},
+								{
+									"key": "cache-control",
+									"value": "no-cache"
+								},
+								{
+									"key": "content-length",
+									"value": "68"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 07 Dec 2023 14:02:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Buku gagal dihapus. Id tidak ditemukan\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get books",
+			"item": [
+				{
+					"name": "CASE 1 : Get all book(s)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 1: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: response body data object should have a array books and contains one items', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 1: the books should have contains only id, name, and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CASE 2 : Get all books on reading",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 2: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: response body data object should have a array books and contains at least 3 items', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 2: the books should have contains only name and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books?reading=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "reading",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CASE 3 : Get all unread books",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 3: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: response body data object should have a array books and contains at least 2 items', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(2);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 3: the books should contain only name and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books?reading=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "reading",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CASE 4 : Get all finished books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 4: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: response body data object should have a array books and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 4: the books should have contains only name and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books?finished=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "finished",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CASE 5 : Get all unfinished books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 5: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 5: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 5: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 5: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 5: response body data object should have a array books and contains at least 2 items', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(2);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 5: the books should have contains only name and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books?finished=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "finished",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CASE 6 : Get book(s) by name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CASE 6: status code should be 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 6: response header Content-Type should be application/json', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 6: response body should be an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 6: response body object should have correct property and value', () => {\r",
+									"    const responsJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+									"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+									"\r",
+									"    pm.expect(responsJson.status).to.equals('success');\r",
+									"    pm.expect(responsJson.data).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 6: response body data object should have a array books and contains at least 1 items', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.haveOwnProperty('books');\r",
+									"    pm.expect(data.books).to.be.an('array');\r",
+									"    pm.expect(data.books).to.lengthOf.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test('CASE 6: the books should have contains only name and publisher property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { books } } = responseJson;\r",
+									"\r",
+									"    books.forEach((book) => {\r",
+									"        pm.expect(Object.keys(book)).to.lengthOf(3);\r",
+									"        pm.expect(book).to.haveOwnProperty('id');\r",
+									"        pm.expect(book).to.haveOwnProperty('name');\r",
+									"        pm.expect(book).to.haveOwnProperty('publisher');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"const deleteAllNotes = () => {\r",
+									"    pm.sendRequest(`${pm.environment.get('baseUrl')}/books`, (error, response) => {\r",
+									"        const responseJson = response.json();\r",
+									"        const { data: { books } } = responseJson;\r",
+									"        books.forEach(({ id }) => {\r",
+									"            const deleteRequest = {\r",
+									"                url: `${pm.environment.get('baseUrl')}/books/${id}`,\r",
+									"                method: 'DELETE',\r",
+									"            };\r",
+									"            pm.sendRequest(deleteRequest, (error, response) => {\r",
+									"                if(error) {\r",
+									"                    console.log(`Failed to delete book ${id}`)\r",
+									"                    return;\r",
+									"                }\r",
+									"                console.log(`Book ${id} deleted`);\r",
+									"            });\r",
+									"        });\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"deleteAllNotes();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books?name=harry",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "harry"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let book1 = JSON.stringify({",
+					"  \"name\": \"Pulang\",",
+					"  \"year\": 2015,",
+					"  \"author\": \"Tere Liye\",",
+					"  \"summary\": \"Cerita bermula dari karakter utama bernama Bujang (15) yang digambarkan sangat piawai dalam berburu babi hutan. Kepandaiannya ini membuat Teuke Muda terkesan sehingga ia memutuskan untuk membawa Bujang ke kota dan mengasuhnya layaknya anak angkat.  Bujang adalah bocah yang pendiam dan tidak pernah mengenyam bangku sekolah. Namun, sejak diasuh dan diberikan pendidikan yang layak oleh Teuke Muda, Ia tumbuh menjadi Bujang dewasa yang telah memiliki pekerjaan profesional. Tidak hanya itu, Ia juga diberikan seorang guru terbaik untuk membantunya mengasah kemampuan bela dirinya. Pada akhirnya, ia pun dijadikan bodyguard oleh Teuku Muda. Kecerdasan, kekuatan, dan kemampuan bela diri yang dimiliki Bujang membuatnya terlibat dalam misi pemberantasan judi dan mencuri sandi penting yang dimiliki oleh keluarga Mater Dragon. Keberhasilannya dalam menyelesaikan mis membuat Bujang harus pindah ke Ibu kota untuk menyelesaikan misi-misi lain dari Teuke Muda.\",",
+					"  \"publisher\": \"Gramedia\",",
+					"  \"pageCount\": 100,",
+					"  \"readPage\": 100,",
+					"  \"reading\": false",
+					"});",
+					"",
+					"let book2 = JSON.stringify({",
+					"  \"name\": \"Negeri Para Bedebah\",",
+					"  \"year\": 2012,",
+					"  \"author\": \"Tere Liye\",",
+					"  \"summary\": \"Di negeri para bedebah, kisah fiksi kalah seru dibanding kisah nyata. Di negeri para bedebah, musang berbulu domba berkeliaran di halaman rumah. Tetapi setidaknya, Kawan, di negeri para bedebah, petarung sejati tidak akan pernah berkhianat.\",",
+					"  \"publisher\": \"Gramedia\",",
+					"  \"pageCount\": 100,",
+					"  \"readPage\": 15,",
+					"  \"reading\": true",
+					"});",
+					"",
+					"let book3 = JSON.stringify({",
+					"  \"name\": \"Harry Potter and the Philosopher's Stone\",",
+					"  \"year\": 2014,",
+					"  \"author\": \"J.K. Rowling\",",
+					"  \"summary\": \"HARRY POTTER has never even heard of Hogwarts when the LETTERS start dropping on the doormat at number four, Privet Drive. Addressed in GREEN INK on yellowish parchment with a PURPLE SEAL, they are swiftly confiscated by his GRISLY aunt and uncle. Then, on Harry's eleventh birthday, a great beetle-eyed giant of a man called RUBEUS HAGRID bursts in with some ASTONISHING news: Harry Potter is a wizard, and he has a place at Hogwarts School of Witchcraft and Wizardry. An incredible adventure is about to begin!\",",
+					"  \"publisher\": \"Bloomsbury\",",
+					"  \"pageCount\": 100,",
+					"  \"readPage\": 15,",
+					"  \"reading\": false",
+					"});",
+					"",
+					"",
+					"",
+					"const postBook1 = {",
+					"  url: pm.environment.get('baseUrl') + '/books',",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Content-Type': 'application/json',",
+					"    'X-Foo': 'bar'",
+					"  },",
+					"  body: book1",
+					"};",
+					"",
+					"const postBook2 = {",
+					"  url: pm.environment.get('baseUrl') + '/books',",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Content-Type': 'application/json',",
+					"    'X-Foo': 'bar'",
+					"  },",
+					"  body: book2",
+					"};",
+					"",
+					"const postBook3 = {",
+					"  url: pm.environment.get('baseUrl') + '/books',",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Content-Type': 'application/json',",
+					"    'X-Foo': 'bar'",
+					"  },",
+					"  body: book3",
+					"};",
+					"",
+					"pm.sendRequest(postBook1, (error, response) => {",
+					"  console.log(error ? error : response.json());",
+					"});",
+					"",
+					"pm.sendRequest(postBook2, (error, response) => {",
+					"  console.log(error ? error : response.json());",
+					"});",
+					"",
+					"pm.sendRequest(postBook3, (error, response) => {",
+					"  console.log(error ? error : response.json());",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"",
+					""
+				]
+			}
+		}
+	]
+}
