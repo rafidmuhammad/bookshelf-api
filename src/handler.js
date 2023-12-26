@@ -2,6 +2,7 @@ const books = require('./books');
 const {nanoid} = require('nanoid');
 
 const addBooksHandler = (request, h) => {
+	console.log(request.payload);
 	const {
 		name,
 		year,
@@ -35,7 +36,7 @@ const addBooksHandler = (request, h) => {
 	// NOTE : no name
 	if (name === undefined) {
 		const response = h.response({
-			status: 'fail',
+			status: 'Failed',
 			message: 'Gagal menambahkan buku. Mohon isi nama buku',
 		});
 		response.code(400);
@@ -45,7 +46,7 @@ const addBooksHandler = (request, h) => {
 	// NOTE : readPage lebih besar dari jumlah halaman
 	if (readPage > pageCount) {
 		const response = h.response({
-			status: 'fail',
+			status: 'Failed',
 			message:
         'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
 		});
@@ -59,7 +60,7 @@ const addBooksHandler = (request, h) => {
 	// NOTE : successfully
 	if (isSuccess) {
 		const response = h.response({
-			status: 'success',
+			status: 'Success',
 			message: 'Buku berhasil ditambahkan',
 			data: {
 				bookId: id,
@@ -181,7 +182,8 @@ const getBookById = (request, h) => {
 	}
 
 	const response = h.response({
-		status: 'fail',
+		status: 'Failed',
+		message: 'Buku tidak ditemukan',
 		message: 'Buku tidak ditemukan',
 	});
 	response.code(404);
