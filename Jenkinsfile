@@ -63,25 +63,10 @@ pipeline {
             }
         }
 
-        stage('Install Postman CLI') {
-            steps {
-                echo 'Intalling Postman CLI...'
-                sh 'curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh'
-                sh 'ls -a'
-            }
-        }
-
-        stage('Postman CLI Login') {
-            steps {
-                    echo 'Loggin in to Postman CLI...'
-                    sh 'postman login --with-api-key $POSTMAN_API_KEY'
-                }
-            }
-        
         stage('Integration Testing'){
             steps {
                 echo 'Testing...'
-                sh 'postman collection run "23923510-e67169b6-e0a8-4e5c-865c-88317134ae1f"-e "23923510-f5f55732-1c66-4c08-8af6-5d66290fecfb"'
+                sh 'newman run bookshelf-API-test.postman_collection.json --environment bookshelf-API-test-copy.postman_environment.json'
             }
         }
     }
