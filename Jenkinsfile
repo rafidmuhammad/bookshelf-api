@@ -74,6 +74,7 @@ pipeline {
         stage('Removing Integration Testing Container'){
             steps{
                 echo 'Removing...'
+                sh 'docker container stop integration-test-container'
                 sh 'docker container rm integration-test-container'
             }
         }
