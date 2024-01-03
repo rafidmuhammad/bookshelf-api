@@ -8,7 +8,6 @@ pipeline {
         DOCKER_HUB_URL = "https://hub.docker.com/repository/docker/rafidmuhammad"
         DOCKER_REGISTRY_ID = "rafidmuhammad-docker"
         COMMIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-        POSTMAN_API_KEY = "PMAK-657e746bf2bff300387a6026-719c7cb61c3079dca95b2814f384498499"
     }
 
     stages {
@@ -59,7 +58,9 @@ pipeline {
             steps {
                 // Add deployment steps here
                 echo 'Deploying for integration...'
-                sh "docker run -d -p 5050:5000 --name integration-test-container ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}"
+                sh "docker run -d --name integration-test-container ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}"
+                sh "docker network connect booknetwork integration-test-container"
+                
             }
         }
 
@@ -67,6 +68,13 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh 'newman run bookshelf-API-test.postman_collection.json --environment bookshelf-API-test-copy.postman_environment.json'
+            }
+        }
+
+        stage('Removing Integration Testing Container'){
+            steps{
+                echo 'Removing...'
+                sh 'docker container rm integration-test-container'
             }
         }
     }
