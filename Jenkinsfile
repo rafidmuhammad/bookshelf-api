@@ -11,16 +11,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout source code from version control
-                script {
-                    echo 'Checkouting...'
-                    checkout scm
-                }
-            }
-        }
-
         stage('Build') {
             steps {
                 // Build and tag the Docker image
