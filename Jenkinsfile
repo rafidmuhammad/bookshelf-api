@@ -16,9 +16,6 @@ pipeline {
                 // Build and tag the Docker image
                 script {
                     echo 'Building...'
-                    echo "${DOCKER_REGISTRY_URL}"
-                    echo "${DOCKER_IMAGE_NAME}"
-                    echo "${COMMIT_SHA}"
                     docker.build("${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}")
                 }
             }
