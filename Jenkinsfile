@@ -46,7 +46,7 @@ pipeline {
                 // Add deployment steps here
                 echo 'Deploying for integration...'
                 sh "docker run -d --name integration-test-container ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}"
-                sh "docker network connect booknetwork integration-test-container"
+                sh "docker network connect qatalknetwork integration-test-container"
                 
             }
         }
